@@ -1,5 +1,7 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.model.service.AuthService;
+import com.ssafy.api.model.service.KakaoService;
 import com.ssafy.api.model.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ public class AuthController {
     AuthService authService;
     @Autowired
     KakaoService kakaoService;
+
 
 
 
