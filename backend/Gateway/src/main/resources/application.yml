@@ -1,0 +1,43 @@
+server:
+    port: 8080
+
+spring:
+  datasource:
+    hikari:
+      idle-timeout: '600000'
+      connection-init-sql: SELECT 1
+      validation-timeout: '2000'
+      maximum-pool-size: '10'
+      auto-commit: 'true'
+      connection-timeout: '5000'
+      max-lifetime: '1800000'
+      minimum-idle: '10'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: 'false'
+  servlet:
+    multipart:
+      max-request-size: 50MB
+      max-file-size: 50MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    cloud:
+      gateway:
+        routes:
+          - id: first-service
+            uri: http://localhost:8081/
+            predicates:
+              - Path=/first-service/**
+          - id: second-service
+            uri: http://localhost:8082/
+            predicates:
+              - Path=/second-service/**
+            filters:
+              - AddRequestHeader=second-request, second-request-header
+              - AddResponseHeader=second-response, second-response-header
+logging:
+  root: info
+  com:
+    ssafy:
+      gateway: debug

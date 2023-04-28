@@ -9,10 +9,10 @@ public class User {
     private Long user_id;
 
     private String email;
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-    @Enumerated(EnumType.STRING)
-    private Provider provider;
+//    @Enumerated(EnumType.STRING)
+//    private UserRole role;
+//    @Enumerated(EnumType.STRING)
+//    private Provider provider;
     private String nickname;
     private Integer compl_habit_cnt;
     private Long exp;
