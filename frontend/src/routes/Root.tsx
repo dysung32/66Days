@@ -30,4 +30,7 @@ const StyledContent = styled(Content)`
   line-height: 120px;
   background-color: #fff;
   padding-inline: 5rem;
+  text-align: inherit;
+  line-height: initial;
+  font-family: Pretendard;
 `;
