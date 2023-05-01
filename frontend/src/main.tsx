@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 10px;
     box-sizing: border-box;
     background-color: #3E2133;
-    color: white;
+    /* color: white; */
     /* overflow-y: hidden; */
     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
   }
