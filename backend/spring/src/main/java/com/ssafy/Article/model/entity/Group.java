@@ -1,5 +1,6 @@
 package com.ssafy.Article.model.entity;
 
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
@@ -10,6 +11,13 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
+@Table(name="group")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+
 public class Group {
 
     @Id

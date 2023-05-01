@@ -15,6 +15,7 @@ import java.util.*;
 @AllArgsConstructor
 @Builder
 public class UserInfo {
+    @Id
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -34,7 +35,6 @@ public class UserInfo {
     private Long point = 0L;
 
     @Column(name = "github_url", nullable = true)
-    @Column(name = "github_url", nullable = true)
     private String github_url;
 
     @Column(name = "github_url", nullable = true)
@@ -42,8 +42,6 @@ public class UserInfo {
 
     @Column(name = "github_url", nullable = true)
     private String animal_name;
-
-    // 연결
 
 
 }
