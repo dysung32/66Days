@@ -1,4 +1,4 @@
-package com.ssafy.api.model.entity.user;
+package com.ssafy.GroupPost.model.entity.user;
 
 public enum UserRole {
     ROLE_USER, ROLE_ADMIN

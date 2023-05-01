@@ -36,4 +36,4 @@ spring.mvc.pathmatch.matching-strategy=ant_path_matcher
 
 # ?? ??
 logging.root=info
-logging.com.ssafy.api=debug
+logging.com.ssafy.Article=debug

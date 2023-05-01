@@ -1,7 +1,7 @@
-package com.ssafy.api.model.service;
+package com.ssafy.Article.model.service;
 
-import com.ssafy.api.model.entity.user.User;
-import com.ssafy.api.model.repository.UserRepository;
+import com.ssafy.Article.model.entity.user.User;
+import com.ssafy.Article.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

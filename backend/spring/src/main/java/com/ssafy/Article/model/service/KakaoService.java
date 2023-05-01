@@ -1,4 +1,4 @@
-package com.ssafy.api.model.service;
+package com.ssafy.Article.model.service;
 
 import org.springframework.beans.factory.annotation.Value;
 

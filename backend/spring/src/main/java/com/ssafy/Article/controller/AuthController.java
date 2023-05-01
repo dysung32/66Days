@@ -1,6 +1,6 @@
-package com.ssafy.api.controller;
+package com.ssafy.Article.controller;
 
-import com.ssafy.api.model.service.UserService;
+import com.ssafy.Article.model.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
