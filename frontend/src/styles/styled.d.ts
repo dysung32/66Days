@@ -13,6 +13,9 @@ declare module "styled-components" {
       pink: string;
       skyblue: string;
       orange: string;
+      mint: string;
+      lightred: string;
+      lightblue: string;
       purple: string;
       black: string;
       success: string;
