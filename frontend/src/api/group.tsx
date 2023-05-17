@@ -141,11 +141,10 @@ async function handleMember(groupId: number, status: string, userName: string) {
     if (res.status === 200) {
       if (status === "MANAGER") {
         alert(`${userName}님 매니저 지정이 완료되었습니다.`);
-        return true;
       } else if (status === "MEMBER") {
         alert(`${userName}님 매니저 해임이 완료되었습니다.`);
-        return true;
       }
+      return true;
     }
 
     throw new Error();
@@ -153,6 +152,51 @@ async function handleMember(groupId: number, status: string, userName: string) {
     // login error -> login  page
     // unauthorized -> unauthorized error
   }
+}
+
+async function handleGroupApplication(
+  groupId: number,
+  status: string,
+  userName: string
+) {
+  try {
+    const res = await api.post(
+      `/api/v1/main-service/group/${groupId}/manage/apply/${status}?user_name=${userName}`
+    );
+    if (res.status === 200) {
+      if (status === "ACCEPTED") {
+        alert(`${userName} 님의 그룹 승인이 완료되었습니다.`);
+      } else if (status === "REJECTED") {
+        alert(`${userName} 님의 그룹 거절이 완료되었습니다.`);
+      }
+      return true;
+    }
+
+    throw new Error();
+  } catch (error) {
+    console.log(error);
+    // login error -> login  page
+    // unauthorized -> unauthorized error
+  }
+}
+
+async function postComment(
+  groupId: number = 1,
+  articleId: number,
+  content: string
+) {
+  try {
+    const res = await api.post(
+      `/api/v1/main-service/article/${groupId}/${articleId}/comment`,
+      { content: content }
+    );
+    if (res.status === 200) {
+      alert("댓글 작성이 완료되었습니다.");
+      return true;
+    }
+
+    throw new Error();
+  } catch (error) {}
 }
 
 export {
@@ -165,4 +209,6 @@ export {
   fetchCommentData,
   postBoard,
   handleMember,
+  handleGroupApplication,
+  postComment,
 };

@@ -15,7 +15,6 @@ import Blog from "../assets/blog_badge.png";
 import Lecture from "../assets/lecture_badge.png";
 import Book from "../assets/book_badge.jpeg";
 import ChallengeBox from "../components/group/ChallengeBox";
-import { BoardBox } from "../components/group/BoardBox";
 import CreateChallengeModal from "../components/group/CreateChallengeModal";
 import MemberModal from "../components/group/MemberModal";
 import BadgeModal from "../components/group/BadgeModal";
@@ -34,6 +33,8 @@ import { BoardModal } from "../components/group/BoardModal";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { getImagePath } from "../util/common";
+import BoardBox from "../components/group/BoardBox";
 
 const { Content } = Layout;
 
@@ -54,9 +55,10 @@ interface MemberType {
 }
 
 interface BadgePreviewType {
-  image: string;
-  category: "알고리즘" | "CS" | "블로깅" | "강의" | "개발서적";
-  count: number;
+  imagePath: string;
+  challengeName: "알고리즘" | "CS" | "블로깅" | "강의" | "개발서적";
+  challengeId: number;
+  achievementCount: number;
 }
 
 interface BadgeType {
@@ -245,7 +247,7 @@ export default function Group() {
       const data = await fetchGroupPageData();
       console.log(data);
       setGroupName(data["group-name"]);
-      setBadgePreview(data.badges);
+      setBadgePreview(data.achievements);
       setChallengeList(data.challenges);
       const boardList = { articles: data.articles, pageNo: 0 };
       setBoardDataList(boardList);
@@ -303,21 +305,25 @@ export default function Group() {
             </div>
           </div>
           <BadgesContainer>
-            {badgePreview.map((badge, index) => (
+            {badgePreview?.map((badge, index) => (
               <BadgeBox key={index}>
-                <div className="badge-cnt">x{badge.count}</div>
+                <div className="badge-cnt">
+                  {badge.achievementCount > 0
+                    ? `x${badge.achievementCount}`
+                    : 0}
+                </div>
                 <CommonButton
-                  color={getCategoryColor(badge.category)}
+                  color={getCategoryColor(badge.challengeName)}
                   font="Kanit-Bold"
                   fontWeight={700}
                   margin="0 0 1rem 0"
                 >
-                  {badge.category}
+                  {badge.challengeName}
                 </CommonButton>
                 <img
                   className="badge-img"
-                  src={getCategoryImage(badge.category)}
-                  onClick={() => clickBadgeCategory(badge.category)}
+                  src={getImagePath(badge.imagePath)}
+                  onClick={() => clickBadgeCategory(badge.challengeName)}
                 />
               </BadgeBox>
             ))}
@@ -396,6 +402,7 @@ export default function Group() {
         memberList={memberList}
         setMemberList={setMemberList}
         appliedList={appliedList}
+        setAppliedList={setAppliedList}
       />
 
       <BadgeModal
@@ -417,6 +424,7 @@ export default function Group() {
         toggleModal={() => setOpenBoardModal((prev) => !prev)}
         boardData={boardData}
         commentData={commentData}
+        setCommentData={setCommentData}
       />
     </div>
   );

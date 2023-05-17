@@ -1,13 +1,19 @@
-import { Layout } from "antd";
+import { Layout, Popover } from "antd";
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 import { NotificationFilled } from "@ant-design/icons";
-import changeDateFormat from "../../util/common";
+import { changeDateFormat } from "../../util/common";
 import { fetchBoardData, fetchCommentData } from "../../api/group";
 
 const { Content } = Layout;
 
-export function BoardBox({ ...props }) {
+export default function BoardBox({ ...props }) {
+  const adminDescContent = () => {
+    return (
+      <AdminDescContent>그룹 관리원들이 작성한 게시물입니다.</AdminDescContent>
+    );
+  };
+
   async function fetchAndSetBoardData() {
     const fetchedBoardData = await fetchBoardData(
       props.data.groupId,
@@ -32,7 +38,9 @@ export function BoardBox({ ...props }) {
     <>
       <BoardBoxWrapper onClick={onClickBoardBox}>
         {props.data.role !== "MEMBER" ? (
-          <NotificationFilled className="admin" />
+          <Popover content={adminDescContent}>
+            <NotificationFilled className="admin" />
+          </Popover>
         ) : null}
         <div className="board-title">{props.data.title}</div>
         <div className="board-info">
@@ -115,4 +123,9 @@ const BoardBoxWrapper = styled(Content)`
   .board-date {
     font-weight: ${theme.fontWeight.medium};
   }
+`;
+
+const AdminDescContent = styled.div`
+  font-size: 1.3rem;
+  font-weight: 700;
 `;

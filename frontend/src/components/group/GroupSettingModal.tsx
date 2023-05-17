@@ -3,7 +3,12 @@ import type { TabsProps } from "antd";
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 import SingleMemberListBox from "./SingleMemberListBox";
-import { fetchGroupMembers, handleMember } from "../../api/group";
+import {
+  fetchAppliedMembers,
+  fetchGroupMembers,
+  handleGroupApplication,
+  handleMember,
+} from "../../api/group";
 
 interface ButtonStyled {
   color?: string;
@@ -27,6 +32,7 @@ interface PropsType {
   memberList: MemberType[];
   setMemberList: React.Dispatch<React.SetStateAction<MemberType[]>>;
   appliedList: MemberType[];
+  setAppliedList: React.Dispatch<React.SetStateAction<MemberType[]>>;
 }
 
 const { Content } = Layout;
@@ -36,6 +42,11 @@ export function GroupSettingModal(props: PropsType) {
   async function fetchAndUpdateGroupMembers() {
     const membersData = await fetchGroupMembers();
     props.setMemberList(membersData["member-list"]);
+  }
+
+  async function fetchAndUpdateGroupAppliedMembers() {
+    const appliedMembersData = await fetchAppliedMembers();
+    props.setAppliedList(appliedMembersData["apply-list"]);
   }
 
   // 그룹 매니저 지정, 해임 메소드
@@ -63,6 +74,18 @@ export function GroupSettingModal(props: PropsType) {
     const resp = await handleMember(1, "DROP", nickname);
     if (resp) {
       fetchAndUpdateGroupMembers();
+    }
+  }
+
+  async function handleAcception(
+    groupId: number,
+    status: string,
+    userName: string
+  ) {
+    const resp = await handleGroupApplication(groupId, status, userName);
+    if (resp) {
+      fetchAndUpdateGroupMembers();
+      fetchAndUpdateGroupAppliedMembers();
     }
   }
 
@@ -142,6 +165,9 @@ export function GroupSettingModal(props: PropsType) {
                   className="setting-btn"
                   color={theme.colors.lightblue}
                   hoverColor={theme.colors.hoverLightBlue}
+                  onClick={() =>
+                    handleAcception(1, "ACCEPTED", member.nickname)
+                  }
                 >
                   수락
                 </CommonButton>
@@ -149,6 +175,9 @@ export function GroupSettingModal(props: PropsType) {
                   className="setting-btn"
                   color={theme.colors.failure}
                   hoverColor={theme.colors.hoverFailure}
+                  onClick={() =>
+                    handleAcception(1, "REJECTED", member.nickname)
+                  }
                 >
                   거절
                 </CommonButton>

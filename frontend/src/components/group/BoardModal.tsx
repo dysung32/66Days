@@ -1,20 +1,24 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 import { Layout, Modal } from "antd";
-import changeDateFormat from "../../util/common";
+import { changeDateFormat } from "../../util/common";
 import { SendOutlined } from "@ant-design/icons";
+import { useRef } from "react";
+import { fetchCommentData, postComment } from "../../api/group";
 
 const { Content } = Layout;
 
 interface ArticleType {
-  articleId: number;
-  title: string;
-  content: string;
-  createdAt: Date;
-  userId: string;
-  nickname: string;
-  groupId: number;
-  role: string;
+  articleDTO: {
+    articleId: number;
+    title: string;
+    content: string;
+    createdAt: Date;
+    userId: string;
+    nickname: string;
+    groupId: number;
+    role: string;
+  };
 }
 
 interface CommentType {
@@ -31,11 +35,14 @@ interface CommentType {
 interface PropsType {
   open: boolean;
   toggleModal: () => void;
-  boardData?: { articleDTO: ArticleType };
-  commentData?: CommentType[];
+  boardData: ArticleType;
+  commentData: CommentType[];
+  setCommentData: React.Dispatch<React.SetStateAction<CommentType[]>>;
 }
 
 export function BoardModal(props: PropsType) {
+  const commentRef = useRef<HTMLInputElement | null>(null);
+
   const CommentBox = () => {
     return (
       <CommentBoxWrapper>
@@ -71,6 +78,27 @@ export function BoardModal(props: PropsType) {
       </CommentBoxWrapper>
     );
   };
+
+  async function fetchAndSetCommentData(articleId: number) {
+    const fetchedCommentData = await fetchCommentData(articleId, 0);
+    props.setCommentData(fetchedCommentData.commentsList);
+  }
+
+  async function handleUploadComment(groupId: number, articleId: number) {
+    if (commentRef.current) {
+      const resp = await postComment(
+        groupId,
+        articleId,
+        commentRef.current.value
+      );
+      if (resp) {
+        commentRef.current.value = "";
+        fetchAndSetCommentData(articleId);
+        props.toggleModal();
+      }
+    }
+  }
+
   return (
     <>
       <CustomModal
@@ -85,7 +113,7 @@ export function BoardModal(props: PropsType) {
             <div className="board-date">
               {props.boardData
                 ? changeDateFormat(
-                    new Date(props.boardData.articleDTO.createdAt)
+                    new Date(props.boardData?.articleDTO.createdAt)
                   )
                 : ""}
             </div>
@@ -110,9 +138,15 @@ export function BoardModal(props: PropsType) {
               <input
                 className="comment-input"
                 placeholder="댓글을 입력해주세요"
+                ref={commentRef}
               />
-              <div className="send-btn">
-                Send
+              <div
+                className="send-btn"
+                onClick={() =>
+                  handleUploadComment(1, props.boardData.articleDTO.articleId)
+                }
+              >
+                Upload
                 <SendOutlined className="send-icon" />
               </div>
             </CommentInputBox>
