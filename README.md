@@ -126,6 +126,7 @@ sequenceDiagram
 ## 6. Wireframe
 
 - Main page
+
     <div>
       <img src="./assets/d1.PNG" width="300" height="300" />
       <img src="./assets/d2.PNG" width="300" height="300" />
@@ -133,7 +134,7 @@ sequenceDiagram
 
 - Group page
     <div>
-      <img src="./assets/d3.PNG" width="300" height="300" />
+      <img src="https://github.com/dysung32/66Days/assets/55757379/19257908-569f-4d72-ae0e-ba90def26a3a" width="300" height="300" />
       <img src="./assets/d5.PNG" width="300" height="300" />
     </div>
 
